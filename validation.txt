@@ -1,19 +1,15 @@
 Passenger #2389 validation
-Fix commit 2d9887283b2ec31d3f10f8ec17db02a57c894b4f
+Fix commit 145029faf37d1aeaef8e7054b08ff8d5341cef94
 Windows x64, .NET SDK 11.0.100
 
-Build
-  Build succeeded.
-  0 Warning(s)
-  0 Error(s)
+Build succeeded with 0 warnings and 0 errors.
 
-CodeAssistTests
-  Total tests: 10
-  Passed: 9
-  Failed: 1
+Both targeted CodeAssistTests flows passed:
+- Fixes_context_actions_templates_and_selection_do_what_they_offer_and_take_back_whole
+- The_gates_navigation_and_refactorings_hold_as_one_flow
 
-The flow Fixes_context_actions_templates_and_selection_do_what_they_offer_and_take_back_whole passed. The new step exercised the default field-removing action, updated references, one-step undo and the field-preserving fallback.
+The #2389 regression selects the original Use primary constructor entry, checks that the redundant field and its reference are replaced, and verifies one-step undo. Its document Fix All step handles both constructors and keeps the computed field initializer.
 
-The existing test Decompiled_code_refuses_changes_and_renames_keep_the_persons_typing_and_unsaved_edits failed at its first step. It listed 12 enabled folding commands on decompiled Int32.cs: the recursive fold/unfold commands and both sets of level 1–5 unfold commands. A separate run of that test on df7d3a5, a branch based on the same 0.5.0 commit without this fix, reported the identical assertion and command list.
+The dark and light screenshots show the original action and its Fix All entry. The result screenshot shows the code after applying the original action with Enter.
 
-The screenshots were captured from a standalone sample on the fixed build. Both themes show the new default selection. The result screenshot shows the code after applying it with Enter.
+The earlier full CodeAssistTests run on 2d98872 had 9 passes and 1 failure. The failure was in the folding menu assertion for decompiled Int32.cs and reproduced with the same command list on df7d3a5, a separate branch without the fix.
